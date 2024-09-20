@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import Title from "../ui/Title";
+import { useSession } from "next-auth/react";
+import axios from "axios";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Order = () => {
-/*   const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [currentUser, setCurrentUser] = useState([]);
-
+  const status = ["preparing", "on the way", "delivered"];
+  const { push } = useRouter();
   const { data: session } = useSession();
   useEffect(() => {
     const getOrders = async () => {
@@ -35,7 +40,7 @@ const Order = () => {
     };
     getUsers();
   }, [session]);
- */
+
   return (
     <div className="lg:p-8 flex-1 lg:mt-0 mt-5">
       <Title className="text-[40px]" title="Password" />
@@ -61,25 +66,29 @@ const Order = () => {
             </tr>
           </thead>
           <tbody>
+            {orders.map((order) => (
               <tr
-                className="transition-all bg-secondary border-gray-700 hover:bg-primary"
+                onClick={() => push(`/order/${order?._id}`)}
+                className=" cursor-pointer transition-all bg-secondary border-gray-700 hover:bg-primary"
+                key={order?._id}
               >
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white flex items-center gap-x-1 justify-center">
-                  <span>63107...</span>
+                  <span>{order?._id.substring(0, 6)}...</span>
                 </td>
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                  Adana
+                  {order?.address}
                 </td>
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                  01-09-2022
+                  {order?.createdAt}
                 </td>
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                  $18
+                  $ {order?.total}
                 </td>
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                  preparing
+                  {status[order?.status]}
                 </td>
               </tr>
+            ))}
           </tbody>
         </table>
       </div>

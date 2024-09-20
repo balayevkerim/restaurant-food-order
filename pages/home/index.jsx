@@ -7,17 +7,18 @@ import Campaigns from "@/components/ui/Campaign";
 import Footer from "@/components/ui/Footer";
 import React from "react";
 
-const Index = () => {
+const Index = ({categoryList,productList}) => {
   return (
     <div>
       <Carousel />
       <Campaigns />
-      <MenuWrapper />
+      <MenuWrapper categoryList={categoryList} productList={productList} />
       <About />
       <Reservation />
       <Customer />
     </div>
   );
 };
+
 
 export default Index;

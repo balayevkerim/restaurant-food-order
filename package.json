@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.4.2",
+    "@cloudinary/react": "^1.13.0",
+    "@cloudinary/url-gen": "^1.21.0",
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",

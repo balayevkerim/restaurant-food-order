@@ -1,7 +1,9 @@
+import axios from "axios";
 import Image from "next/image";
 
 const Order = ({ order }) => {
-  const status = 2;
+  const status = order?.status;
+  console.log("order", order);
 
   const statusClass = (index) => {
     if (index - status < 1) return "";
@@ -94,5 +96,15 @@ const Order = ({ order }) => {
   );
 };
 
+export const getServerSideProps = async ({ params }) => {
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/orders/${params.id}`
+  );
 
+  return {
+    props: {
+      order: res.data ? res.data : null,
+    },
+  };
+};
 export default Order;

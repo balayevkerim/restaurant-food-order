@@ -3,12 +3,14 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Loading } from "../ui/Loading";
 
-const Products = () => {
+const Products = ({ needRefetch }) => {
+
   const [products, setProducts] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleDelete = async (id) => {
-    /*  try {
+    try {
       if (confirm("Are you sure you want to delete this product?")) {
         const res = await axios.delete(
           `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`
@@ -20,23 +22,27 @@ const Products = () => {
       }
     } catch (err) {
       console.log(err);
-    } */
+    }
   };
 
-  /*  const getProducts = async () => {
+  const getProducts = async () => {
     try {
+      setIsLoading(true);
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/products`
       );
       setProducts(res.data);
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
+    console.log('boom')
     getProducts();
-  }, []); */
+  }, [needRefetch]);
 
   return (
     <div className="lg:p-8 flex-1 lg:mt-0 mt-5">
@@ -63,35 +69,45 @@ const Products = () => {
             </tr>
           </thead>
           <tbody>
-            <tr
-              className="transition-all bg-secondary border-gray-700 hover:bg-primary"
-            >
-              <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white flex items-center gap-x-1 justify-center">
-                <Image
-                  src={"/images/pizza1.png"}
-                  alt={"Pizza"}
-                  width={50}
-                  height={50}
-                />
-              </td>
-              <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                1...
-              </td>
-              <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                Pizza
-              </td>
-              <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                $ 10
-              </td>
-              <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                <button
-                  className="inline-block cursor-pointer border-none  rounded-[45px] transition-all text-white py-[0.5rem] px-7 hover:bg-[#e69c00] !bg-danger"
-                  onClick={() => handleDelete(1)}
+            {isLoading ? (
+              <div className="translate-x-[40%] mt-3">
+                <Loading width="w-10" height="h-10" />
+              </div>
+            ) : (
+              products.length > 0 &&
+              products.map((product) => (
+                <tr
+                  className="transition-all bg-secondary border-gray-700 hover:bg-primary"
+                  key={product._id}
                 >
-                  Delete
-                </button>
-              </td>
-            </tr>
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white flex items-center gap-x-1 justify-center">
+                    <Image
+                      src={product.img}
+                      alt={product.title}
+                      width={50}
+                      height={50}
+                    />
+                  </td>
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
+                    {product._id.substring(0, 5)}...
+                  </td>
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
+                    {product.title}
+                  </td>
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
+                    $ {product.prices[0]}
+                  </td>
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
+                    <button
+                      className="inline-block cursor-pointer border-none  rounded-[45px] transition-all text-white py-[0.5rem] px-7 hover:bg-[#e69c00] !bg-danger"
+                      onClick={() => handleDelete(product._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

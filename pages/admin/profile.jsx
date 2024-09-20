@@ -9,25 +9,28 @@ import Products from "@/components/admin/Products";
 import Category from "@/components/admin/Category";
 import Order from "@/components/admin/Order";
 import Footer from "@/components/admin/Footer";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import AddProduct from "@/components/admin/AddProduct";
 
 const Profile = ({ user }) => {
   const [tabs, setTabs] = useState(0);
+  
   const { push } = useRouter();
-
+  const [isProductModal, setIsProductModal] = useState(false);
+  const [needRefetch, setNeedRefetch] = useState(false);
   const handleSignOut = () => {
     if (confirm("Are you sure you want to sign out?")) {
       signOut({ redirect: false });
-      push("/auth/login");
+      push("/admin");
     }
   };
 
-  /*   useEffect(() => {
-    if (!session) {
-      push("/auth/login");
+  useEffect(() => {
+    if (needRefetch) {
+      setNeedRefetch(true);
     }
-  }, [session, push]);
- */
+  }, [needRefetch]);
+
   return (
     <div className="flex px-10 min-h-[calc(100vh_-_433px)] lg:flex-row flex-col lg:mb-0 mb-10">
       <div className="lg:w-80 w-100 flex-shrink-0">
@@ -87,10 +90,19 @@ const Profile = ({ user }) => {
           </li>
         </ul>
       </div>
-      {tabs === 0 && <Products />}
+      {tabs === 0 && <Products needRefetch={needRefetch} />}
       {tabs === 1 && <Category />}
       {tabs === 2 && <Order />}
       {tabs === 3 && <Footer />}
+      {isProductModal && <AddProduct setIsProductModal={setIsProductModal} setNeedRefetch={setNeedRefetch}  />}
+      <button
+        className=" absolute top-[150px] right-[70px] cursor-pointer border-none bg-primary rounded-[45px] transition-all text-white py-[0.5rem] px-7 hover:bg-[#e69c00]"
+        type="button"
+        onClick={() => setIsProductModal(true)}
+      >
+        {" "}
+        Add product
+      </button>
     </div>
   );
 };

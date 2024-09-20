@@ -4,10 +4,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 
 import { useEffect, useState } from "react";
-import Order from "../order";
 import { signOut, useSession } from "next-auth/react";
 import axios from "axios";
-import { redirect } from "next/dist/server/api-utils";
+import Order from "@/components/profile/Order";
 
 const Profile = ({ user }) => {
   const [tabs, setTabs] = useState(0);
@@ -88,16 +87,12 @@ export async function getServerSideProps({ req, params }) {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/users/${params.id}`
     );
-
-    console.log(response, "kerimbalayecx");
-
     return {
       props: {
         user: response ? response.data : null,
       },
     };
   } catch (error) {
-    console.error("Error fetching user:", error);
     return {
       redirect: {
         destination: "/auth/login",
