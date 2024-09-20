@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Title from "../ui/Title";
+import { toast } from "react-toastify";
 
 const Order = () => {
   const [orders, setOrders] = useState([]);
@@ -13,7 +14,7 @@ const Order = () => {
         );
         setOrders(res.data);
       } catch (err) {
-        console.log(err);
+        toast.error(err?.message || "Failed to fetch");
       }
     };
     getOrders();
@@ -32,7 +33,7 @@ const Order = () => {
       );
       setOrders([res.data, ...orders.filter((order) => order._id !== id)]);
     } catch (err) {
-      console.log(err);
+      toast.error(err?.message || "Failed to fetch");
     }
   };
 
@@ -90,7 +91,11 @@ const Order = () => {
                     </td>
                     <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
                       <button
-                        className={`${order?.status >1 ? 'cursor-not-allowed ' : 'cursor-pointer'} border-non rounded-[45px] transition-all text-white py-[0.5rem] px-7 ${
+                        className={`${
+                          order?.status > 1
+                            ? "cursor-not-allowed "
+                            : "cursor-pointer"
+                        } border-non rounded-[45px] transition-all text-white py-[0.5rem] px-7 ${
                           order?.status > 1 ? "bg-slate-500" : "bg-success"
                         }`}
                         onClick={() => handleStatus(order?._id)}

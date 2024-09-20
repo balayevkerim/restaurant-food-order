@@ -16,7 +16,7 @@ const Password = ({ user }) => {
       toast.success("Password updated succesffuly!");
       actions.resetForm();
     } catch (err) {
-      console.log(err);
+      toast.error( err?.message || "Failed to fetch")
     }
   };
 

@@ -1,6 +1,7 @@
 import User from "@/models/User";
 import dbConnect from "@/utils/dbConnect";
 import bcrypt from "bcryptjs";
+import { toast } from "react-toastify";
 
 const handler = async (req, res) => {
   await dbConnect();
@@ -22,7 +23,7 @@ const handler = async (req, res) => {
     res.status(200).json(newUser);
     // set password to hashed
   } catch (err) {
-    console.log(err);
+    toast.error(err?.message || "Failed to fetch");
   }
 };
 

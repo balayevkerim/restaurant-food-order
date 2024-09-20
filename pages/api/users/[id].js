@@ -1,6 +1,7 @@
 import User from "@/models/User";
 import dbConnect from "@/utils/dbConnect";
 import bcrypt from "bcryptjs";
+import { toast } from "react-toastify";
 
 const handler = async (req, res) => {
   await dbConnect();
@@ -14,7 +15,7 @@ const handler = async (req, res) => {
       const user = await User.findById(id);
       res.status(200).json(user);
     } catch (err) {
-      return res.status(400).json({message:"Error"})
+      return res.status(400).json({ message: "Error" });
     }
   }
 
@@ -32,7 +33,7 @@ const handler = async (req, res) => {
       });
       res.status(200).json(users);
     } catch (err) {
-      console.log(err);
+      toast.error(err?.message || "Failed to fetch");
     }
   }
 };

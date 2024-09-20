@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 
 const Account = ({ user }) => {
   const onSubmit = async (values, actions) => {
-    console.log('running', values)
     try {
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/users/${user._id}`,
@@ -18,7 +17,7 @@ const Account = ({ user }) => {
         toast.success("Profile updated successfully");
       }
     } catch (err) {
-      console.log(err);
+      toast.error(err?.message || "Failed to fetch");
     }
   };
 

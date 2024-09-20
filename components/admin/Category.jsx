@@ -2,12 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Input from "../form/Input";
 import Title from "../ui/Title";
+import { toast } from "react-toastify";
 
 const Category = () => {
   const [inputText, setInputText] = useState("");
   const [categories, setCategories] = useState([]);
 
-  console.log(categories,'cat')
   useEffect(() => {
     const getCategories = async () => {
       try {
@@ -17,7 +17,7 @@ const Category = () => {
 
         setCategories(res?.data);
       } catch (err) {
-        console.log(err);
+        toast.error(err?.message || "Failed to fetch");
       }
     };
     getCategories();
@@ -29,11 +29,10 @@ const Category = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/categories`,
         { title: inputText }
       );
-      console.log(res.data);
       setCategories([...categories, res.data.category]);
       setInputText("");
     } catch (err) {
-      console.log(err);
+      toast.error(err?.message || "Failed to fetch");
     }
   };
 
@@ -47,7 +46,7 @@ const Category = () => {
         setCategories(categories.filter((cat) => cat._id !== id));
       }
     } catch (err) {
-      console.log(err);
+      toast.error(err?.message || "Failed to fetch");
     }
   };
 
@@ -69,8 +68,10 @@ const Category = () => {
           </button>
         </div>
         <div className="mt-10  max-h-[250px] overflow-auto pb-4">
-          {!categories || categories.length==0 ? (
-            <div className="flex border-primary  border p-3 items-center justify-center">No Categories added yet</div>
+          {!categories || categories.length == 0 ? (
+            <div className="flex border-primary  border p-3 items-center justify-center">
+              No Categories added yet
+            </div>
           ) : (
             categories.map((category) => (
               <div className="flex justify-between mt-4" key={category._id}>

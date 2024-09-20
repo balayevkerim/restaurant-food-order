@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const Order = () => {
   const [orders, setOrders] = useState([]);
@@ -21,7 +22,7 @@ const Order = () => {
           res.data.filter((order) => order.customer === currentUser?.fullName)
         );
       } catch (err) {
-        console.log(err);
+        toast.error( err?.message || "Failed to fetch")
       }
     };
     getOrders();
@@ -35,7 +36,7 @@ const Order = () => {
           res.data.filter((user) => user.email === session.user.email)[0]
         );
       } catch (err) {
-        console.log(err);
+        toast.error( err?.message || "Failed to fetch")
       }
     };
     getUsers();

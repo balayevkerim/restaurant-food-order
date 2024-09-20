@@ -1,5 +1,6 @@
 import User from "@/models/User";
 import dbConnect from "@/utils/dbConnect";
+import { toast } from "react-toastify";
 const handler = async (req, res) => {
   await dbConnect();
   const { method } = req;
@@ -9,7 +10,7 @@ const handler = async (req, res) => {
       const users = await User.find();
       res.status(200).json(users);
     } catch (err) {
-      console.log(err);
+      toast.error(err?.message || "Failed to fetch");
     }
   }
 
@@ -18,8 +19,8 @@ const handler = async (req, res) => {
       const newUser = await User.create(req.body);
       res.status(200).json(newUser);
     } catch (err) {
-      console.log(err);
-      res.status(400).json({ message:err.message || "Something went wrong" });
+      toast.error(err?.message || "Failed to fetch");
+      res.status(400).json({ message: err.message || "Something went wrong" });
     }
   }
 };

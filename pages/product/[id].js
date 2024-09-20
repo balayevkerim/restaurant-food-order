@@ -9,7 +9,6 @@ import axios from "axios";
 
 const Index = ({ product }) => {
   const [prices, setPrices] = useState(product?.prices);
-  console.log(prices, "asg");
   const [initialPrice, setInitialPrice] = useState(prices[0]);
   const [extraItems, setExtraItems] = useState(product?.extraOptions);
   const [extras, setExtras] = useState([]);

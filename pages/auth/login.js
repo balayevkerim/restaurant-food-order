@@ -30,7 +30,6 @@ const Login = () => {
   };
 
   useEffect(() => {
-    console.log(session,currentUser)
     const getUser = async () => {
       try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`);
@@ -39,7 +38,7 @@ const Login = () => {
         );
         session && push("/profile/" + currentUser?._id);
       } catch (err) {
-        console.log(err);
+        toast.error( err?.message || "Failed to fetch")
       }
     };
     getUser();
@@ -122,7 +121,6 @@ const Login = () => {
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
 
-  console.log("server session-----", session);
   const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`);
   const user = res.data?.find((user) => user.email === session?.user.email);
   if (session && user) {

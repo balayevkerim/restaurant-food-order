@@ -21,7 +21,7 @@ const Footer = () => {
         setFooterData(res.data[0]);
         setSocialMediaLinks(res.data[0].socialMedia);
       } catch (err) {
-        console.log(err);
+              toast.error( err?.message || "Failed to fetch")
       }
     };
     getFooterData();
@@ -47,7 +47,7 @@ const Footer = () => {
         toast.success("Footer updated successfully");
       }
     } catch (err) {
-      console.log(err);
+            toast.error( err?.message || "Failed to fetch")
     } */
   };
 

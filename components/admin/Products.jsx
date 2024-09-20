@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { Loading } from "../ui/Loading";
 
 const Products = ({ needRefetch }) => {
-
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const handleDelete = async (id) => {
@@ -21,7 +20,7 @@ const Products = ({ needRefetch }) => {
         }
       }
     } catch (err) {
-      console.log(err);
+      toast.error(err?.message || "Failed to fetch");
     }
   };
 
@@ -34,13 +33,12 @@ const Products = ({ needRefetch }) => {
       setProducts(res.data);
       setIsLoading(false);
     } catch (err) {
-      console.log(err);
+      toast.error(err?.message || "Failed to fetch");
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    console.log('boom')
     getProducts();
   }, [needRefetch]);
 

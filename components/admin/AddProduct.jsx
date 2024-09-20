@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Title from "../ui/Title";
 import { Loading } from "../ui/Loading";
 
-const AddProduct = ({ setIsProductModal,setNeedRefetch }) => {
+const AddProduct = ({ setIsProductModal, setNeedRefetch }) => {
   const [file, setFile] = useState();
   const [imageSrc, setImageSrc] = useState();
 
@@ -28,16 +28,14 @@ const AddProduct = ({ setIsProductModal,setNeedRefetch }) => {
         );
         setCategories(res.data);
       } catch (err) {
-        console.log(err);
+        toast.error("Failed to fetch");
       }
     };
     getProducts();
   }, []);
 
   const handleExtra = (e) => {
-    console.log(extraOptions)
     if (extra) {
-      console.log(extra)
       if (extra.text && extra.price) {
         setExtraOptions((prev) => [...prev, extra]);
       }
@@ -91,12 +89,12 @@ const AddProduct = ({ setIsProductModal,setNeedRefetch }) => {
       if (res.status === 201) {
         setIsLoading(false);
         setIsProductModal(false);
-        setNeedRefetch(true)
+        setNeedRefetch(true);
         toast.success("Product created successfully!");
       }
     } catch (err) {
       setIsLoading(false);
-      console.log(err);
+      toast.error(err?.message || "Failed to fetch");
     }
   };
 
@@ -253,7 +251,7 @@ const AddProduct = ({ setIsProductModal,setNeedRefetch }) => {
                 onClick={handleCreate}
                 type="button"
               >
-                Create {isLoading ?<Loading /> : null}
+                Create {isLoading ? <Loading /> : null}
               </button>
             </div>
             <button

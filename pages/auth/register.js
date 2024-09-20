@@ -13,14 +13,12 @@ const Register = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/users/register`,
         values
       );
-      console.log(res)
       if (res.status === 200) {
         toast.success("User created successfully");
         push("/");
       }
     } catch (err) {
       toast.error(err.response.data.message);
-      console.log(err);
     }
     actions.resetForm();
   };

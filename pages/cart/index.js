@@ -5,12 +5,12 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const Cart = ({ userList }) => {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const { data: session } = useSession();
-console.log(cart)
   const user = userList?.find((user) => user.email === session?.user?.email);
   const router = useRouter();
 
@@ -42,7 +42,7 @@ console.log(cart)
         });
       }
     } catch (err) {
-      console.log(err);
+      toast.error( err?.message || "Failed to fetch")
     }
   };
   return (

@@ -1,5 +1,6 @@
 import Product from "@/models/Product";
 import dbConnect from "@/utils/dbConnect";
+import { toast } from "react-toastify";
 
 const handler = async (req, res) => {
   await dbConnect();
@@ -13,7 +14,7 @@ const handler = async (req, res) => {
       const product = await Product.findById(id);
       res.status(200).json(product);
     } catch (err) {
-      console.log(err);
+      toast.error(err?.message || "Failed to fetch");
     }
   }
 
@@ -22,7 +23,7 @@ const handler = async (req, res) => {
       const product = await Product.findByIdAndDelete(id);
       res.status(200).json(product);
     } catch (err) {
-      console.log(err);
+      toast.error(err?.message || "Failed to fetch");
     }
   }
 };
