@@ -6,11 +6,12 @@ const MenuWrapper = ({ categoryList, productList }) => {
   const [active, setActive] = useState(0);
   const [filteredList, setFilteredList] = useState([]);
 
-  useEffect(()=>{
-    console.log(categoryList,productList)
-    const filteredProducts = productList.filter(product=>product.category==categoryList[active].title)
-    setFilteredList(filteredProducts)
-  },[active])
+  useEffect(() => {
+    const filteredProducts = productList.filter(
+      (product) => product.category == categoryList[active].title
+    );
+    setFilteredList(filteredProducts);
+  }, [active, categoryList, productList]);
   return (
     <div className="container mx-auto flex flex-col items-center px-3 my-10">
       <Title title={"Menu"} className={"text-4xl text-center"} />
