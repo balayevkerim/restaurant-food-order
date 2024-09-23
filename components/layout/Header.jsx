@@ -48,7 +48,7 @@ const Header = () => {
               </li>
               <li>
                 <Link
-                  href="/book"
+                  href="/reservation"
                   className="py-[5px] transition-all px-5 uppercase hover:text-primary"
                 >
                   Book Table
